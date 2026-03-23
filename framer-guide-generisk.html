@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Framer-guide — Bygg nettside fra bunnen av</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
+
+  :root {
+    --sage: #7A9E7E;
+    --sage-light: #EBF2EC;
+    --peach: #F2A07B;
+    --peach-light: #FDF0E8;
+    --sky: #7BB8D4;
+    --sky-light: #E8F4F9;
+    --butter: #F5E6A3;
+    --butter-light: #FDFBF0;
+    --dark: #2C2C2C;
+    --mid: #E8EAE4;
+    --gray: #7A7D72;
+    --white: #FEFEFE;
+    --cream: #F8F7F2;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    background: var(--cream);
+    color: var(--dark);
+    line-height: 1.7;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    background: var(--white);
+    border-bottom: 1px solid var(--mid);
+    padding: 18px 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--sage);
+  }
+
+  .nav-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-top: 2px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gray);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--sage); }
+
+  /* HERO */
+  .hero {
+    background: var(--sage);
+    padding: 100px 144px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: end;
+  }
+
+  .hero-left h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 1.05;
+    color: var(--white);
+    margin-bottom: 20px;
+  }
+
+  .hero-left p {
+    font-size: 16px;
+    color: rgba(254,254,254,0.75);
+    line-height: 1.8;
+    max-width: 420px;
+  }
+
+  .hero-right {
+    background: rgba(255,255,255,0.12);
+    border-radius: 16px;
+    padding: 36px;
+    color: var(--white);
+  }
+
+  .hero-right h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: var(--white);
+  }
+
+  .pill-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+  .pill-list li {
+    background: rgba(255,255,255,0.15);
+    border-radius: 999px;
+    padding: 8px 18px;
+    font-size: 13px;
+    color: rgba(254,254,254,0.9);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .pill-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--peach);
+    flex-shrink: 0;
+  }
+
+  /* MAIN */
+  main { max-width: 1100px; margin: 0 auto; padding: 80px 80px; }
+
+  section { margin-bottom: 80px; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--sage);
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 36px;
+    margin-bottom: 16px;
+    color: var(--dark);
+    line-height: 1.15;
+  }
+
+  .intro-text {
+    font-size: 15px;
+    color: var(--gray);
+    max-width: 680px;
+    margin-bottom: 36px;
+    line-height: 1.85;
+  }
+
+  h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 17px;
+    margin-bottom: 14px;
+    margin-top: 36px;
+    color: var(--dark);
+  }
+
+  p { margin-bottom: 14px; color: var(--gray); font-size: 14px; }
+
+  /* CARDS */
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .card {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 28px;
+    border: 1px solid var(--mid);
+  }
+
+  .card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-bottom: 14px;
+  }
+
+  .card h4 {
+    font-weight: 500;
+    font-size: 15px;
+    margin-bottom: 8px;
+    color: var(--dark);
+  }
+
+  .card p { font-size: 13px; color: var(--gray); margin: 0; line-height: 1.7; }
+
+  /* STEPS */
+  .steps { display: flex; flex-direction: column; gap: 0; margin-top: 20px; }
+
+  .step {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 0;
+    position: relative;
+  }
+
+  .step-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 4px;
+  }
+
+  .step-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--sage-light);
+    border: 2px solid var(--sage);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--sage);
+    font-weight: 500;
+    flex-shrink: 0;
+    z-index: 1;
+  }
+
+  .step-line {
+    width: 2px;
+    flex: 1;
+    background: var(--mid);
+    margin-top: 4px;
+    margin-bottom: -8px;
+  }
+
+  .step:last-child .step-line { display: none; }
+
+  .step-content {
+    padding: 0 0 28px 20px;
+  }
+
+  .step-title {
+    font-weight: 500;
+    font-size: 15px;
+    color: var(--dark);
+    margin-bottom: 6px;
+  }
+
+  .step-desc { font-size: 13px; color: var(--gray); line-height: 1.75; margin: 0; }
+
+  /* CODE */
+  code {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    background: var(--sage-light);
+    color: var(--sage);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  .code-block {
+    background: #2C3026;
+    color: #c8d5b9;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    line-height: 1.9;
+    padding: 24px 28px;
+    border-radius: 12px;
+    margin: 20px 0;
+    overflow-x: auto;
+  }
+
+  .code-block .key { color: #98c379; }
+  .code-block .val { color: #e5c07b; }
+  .code-block .comment { color: #5c6b4d; }
+  .code-block .highlight { color: #7ec8d4; }
+
+  /* TIPS */
+  .tip {
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 24px 0;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .tip-sage { background: var(--sage-light); border: 1px solid rgba(122,158,126,0.25); }
+  .tip-peach { background: var(--peach-light); border: 1px solid rgba(242,160,123,0.25); }
+  .tip-sky { background: var(--sky-light); border: 1px solid rgba(123,184,212,0.25); }
+
+  .tip-emoji { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+
+  .tip-body { flex: 1; }
+
+  .tip-title {
+    font-weight: 500;
+    font-size: 13px;
+    margin-bottom: 4px;
+    color: var(--dark);
+  }
+
+  .tip-text { font-size: 13px; color: var(--gray); margin: 0; line-height: 1.7; }
+
+  /* TABLE */
+  .table-wrap { overflow-x: auto; margin-top: 20px; border-radius: 12px; border: 1px solid var(--mid); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+
+  th {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gray);
+    text-align: left;
+    padding: 14px 18px;
+    background: var(--cream);
+    border-bottom: 1px solid var(--mid);
+  }
+
+  td {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--mid);
+    color: var(--dark);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(122,158,126,0.04); }
+
+  /* COLOR SWATCHES */
+  .palette { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+
+  .swatch { text-align: center; }
+
+  .swatch-color {
+    width: 56px;
+    height: 56px;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.07);
+    margin-bottom: 6px;
+  }
+
+  .swatch-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    color: var(--gray);
+    letter-spacing: 0.06em;
+  }
+
+  /* CHECKLIST */
+  .checklist { list-style: none; margin-top: 16px; }
+
+  .checklist li {
+    padding: 12px 16px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    border-radius: 8px;
+    margin-bottom: 4px;
+    font-size: 14px;
+    color: var(--gray);
+    background: var(--white);
+    border: 1px solid var(--mid);
+  }
+
+  .check-box {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    border: 2px solid var(--sage);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* SECTION BG VARIANTS */
+  .section-peach { background: var(--peach-light); border-radius: 20px; padding: 48px; margin-bottom: 80px; }
+  .section-sky { background: var(--sky-light); border-radius: 20px; padding: 48px; margin-bottom: 80px; }
+  .section-butter { background: var(--butter-light); border-radius: 20px; padding: 48px; margin-bottom: 80px; }
+
+  /* DIVIDER */
+  hr { border: none; border-top: 1px solid var(--mid); margin: 60px 0; }
+
+  /* MOBILE SECTION */
+  .breakpoint-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .breakpoint-card {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 24px;
+    border: 1px solid var(--mid);
+    text-align: center;
+  }
+
+  .breakpoint-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+  }
+
+  .breakpoint-size {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--sage);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+
+  .breakpoint-name {
+    font-weight: 500;
+    font-size: 15px;
+    color: var(--dark);
+    margin-bottom: 8px;
+  }
+
+  .breakpoint-desc { font-size: 12px; color: var(--gray); margin: 0; }
+
+  /* FOOTER */
+  footer {
+    background: var(--sage);
+    padding: 48px 144px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(254,254,254,0.55);
+    margin: 0;
+  }
+
+  footer .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    color: var(--white);
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div>
+    <div class="nav-logo">Framer-guide</div>
+    <div class="nav-sub">Steg-for-steg fra idé til nettside</div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#grunnlag">Grunnlag</a></li>
+    <li><a href="#layout">Layout</a></li>
+    <li><a href="#design">Design</a></li>
+    <li><a href="#seksjoner">Seksjoner</a></li>
+    <li><a href="#mobil">Mobil</a></li>
+    <li><a href="#feil">Feil & tips</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="hero-left">
+    <h1>Bygg nettside i Framer</h1>
+    <p>En praktisk guide som tar deg fra tom canvas til ferdig publisert nettside — med tips, triks og løsninger på de vanligste problemene underveis.</p>
+  </div>
+  <div class="hero-right">
+    <h2>Hva du lærer</h2>
+    <ul class="pill-list">
+      <li><span class="pill-dot"></span>Forstå Framer sin logikk og paneler</li>
+      <li><span class="pill-dot"></span>Bygge layouter med Stack og Grid</li>
+      <li><span class="pill-dot"></span>Sette opp typografi og farger konsekvent</li>
+      <li><span class="pill-dot"></span>Tilpasse siden for mobilvisning</li>
+      <li><span class="pill-dot"></span>Unngå de 10 vanligste feilene</li>
+      <li><span class="pill-dot"></span>Publisere og dele nettsiden</li>
+    </ul>
+  </div>
+</div>
+
+<main>
+
+  <!-- GRUNNLAG -->
+  <section id="grunnlag">
+    <div class="section-label">Del 1</div>
+    <h2>Forstå Framer</h2>
+    <p class="intro-text">Framer er et visuelt designverktøy der du bygger nettsider ved å plassere <strong>frames</strong> — bokser — inne i hverandre. Alt på nettsiden er en frame. Når du forstår denne logikken, faller alt på plass.</p>
+
+    <h3>De fire panelene du bruker hele tiden</h3>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon" style="background: var(--sage-light);">📄</div>
+        <h4>Pages</h4>
+        <p>Oversikt over alle sider på nettsiden. Her lager du nye sider (f.eks. en Team-side) og velger om de skal være offentlige eller utkast (Draft).</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background: var(--peach-light);">🗂</div>
+        <h4>Layers</h4>
+        <p>Viser strukturen av alle frames og lag på siden. Rekkefølgen bestemmer hva som legges oppå hva. Dette er det viktigste panelet — bruk det aktivt.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background: var(--sky-light);">🖼</div>
+        <h4>Assets</h4>
+        <p>Her lagres bilder og ressurser du laster opp. Du kan dra bilder herfra direkte inn på canvas, eller laste opp ved å dra fra Finder.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background: var(--butter-light);">⚙️</div>
+        <h4>Høyre panel</h4>
+        <p>Viser innstillinger for valgt element: størrelse, farge, layout, posisjon og typografi. Du bruker dette for nesten alle endringer.</p>
+      </div>
+    </div>
+
+    <h3>Grunnleggende begreper</h3>
+    <div class="table-wrap">
+      <table>
+        <tr>
+          <th>Begrep</th>
+          <th>Hva det betyr</th>
+          <th>Når brukes det</th>
+        </tr>
+        <tr>
+          <td><strong>Frame</strong></td>
+          <td>En boks/container. Alt er en frame.</td>
+          <td>Trykk <code>F</code> og dra for å lage ny</td>
+        </tr>
+        <tr>
+          <td><strong>Stack</strong></td>
+          <td>Layout som stabler barn-elementer automatisk</td>
+          <td>Når innhold skal legge seg under/ved siden av hverandre</td>
+        </tr>
+        <tr>
+          <td><strong>Grid</strong></td>
+          <td>Layout som deler innhold i kolonner og rader</td>
+          <td>Kortgrids, f.eks. 3 kolonner med funn</td>
+        </tr>
+        <tr>
+          <td><strong>Parent / Child</strong></td>
+          <td>Forelder/barn-forholdet mellom frames</td>
+          <td>Barn-frames arver layout fra parent</td>
+        </tr>
+        <tr>
+          <td><strong>Relative</strong></td>
+          <td>Elementet følger normal dokumentflyt</td>
+          <td>Nesten alltid — for seksjoner under hverandre</td>
+        </tr>
+        <tr>
+          <td><strong>Absolute</strong></td>
+          <td>Elementet flyter fritt</td>
+          <td>Dekorative elementer du vil plassere presist</td>
+        </tr>
+        <tr>
+          <td><strong>Fixed</strong></td>
+          <td>Elementet låses til skjermen</td>
+          <td>Navigasjonsbar som skal følge med ved scrolling</td>
+        </tr>
+        <tr>
+          <td><strong>Fit Content</strong></td>
+          <td>Høyden tilpasses innholdet automatisk</td>
+          <td>Alltid på tekstbokser og kort</td>
+        </tr>
+      </table>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- LAYOUT -->
+  <section id="layout">
+    <div class="section-label">Del 2</div>
+    <h2>Layout og struktur</h2>
+    <p class="intro-text">Layouten i Framer styres av Stack-retning og størrelse. Disse to tingene er årsaken til nesten alle layoutproblemer — og løsningen på dem.</p>
+
+    <h3>De fem viktigste layoutreglene</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-left">
+          <div class="step-circle">01</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">Vertikal vs. horisontal Stack</div>
+          <p class="step-desc">Vertikal Stack (↕) stabler innhold under hverandre. Horisontal Stack (↔) setter dem side om side. Hvis tekster havner ved siden av hverandre når de skal stå under hverandre, er retningen feil — bytt til vertikal.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left">
+          <div class="step-circle">02</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">Fit Content vs. Fixed høyde</div>
+          <p class="step-desc">Bruk Fit Content på høyde når innholdet skal bestemme størrelsen. Bruk Fixed kun når du vet eksakt høyde. Tekst som kuttes av skyldes nesten alltid Fixed høyde — bytt til Fit Content.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left">
+          <div class="step-circle">03</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">Gap og Padding</div>
+          <p class="step-desc"><strong>Gap</strong> er avstanden mellom barn-elementer i en Stack. <strong>Padding</strong> er luften inni selve framen. Bruk Gap for avstand mellom kort, Padding for luft rundt innholdet inne i en seksjon.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left">
+          <div class="step-circle">04</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">Fill vs. Fixed bredde</div>
+          <p class="step-desc">Fill gjør at framen fyller tilgjengelig bredde i parent. Fixed låser den til en bestemt bredde. Bruk Fill på innholdsframes som skal strekke seg over hele seksjonen.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left">
+          <div class="step-circle">05</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">Distribute og Align</div>
+          <p class="step-desc">Distribute: Start plasserer elementer fra topp/venstre. Space Between fordeler dem jevnt. Align styrer justering — venstre, midtstilt eller høyre. Bruk Space Between når du vil ha etikett til venstre og badge til høyre.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>Typisk seksjon-struktur</h3>
+    <div class="code-block">
+      <span class="comment">// Slik ser en typisk seksjon ut i Layers-panelet:</span><br><br>
+      <span class="key">Desktop</span><br>
+      &nbsp;&nbsp;└── <span class="key">Min-seksjon</span> <span class="comment">// Width: 1440, Stack Vertikal, Padding topp/bunn + sider</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <span class="highlight">Topp-rad</span> <span class="comment">// Stack Horisontal, Space Between</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="val">Venstre</span> <span class="comment">// Stack Vertikal — etikett + overskrift</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── <span class="val">Høyre</span> <span class="comment">// Tekst, badge eller ikon</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── <span class="highlight">Innhold</span> <span class="comment">// Grid med kolonner, eller Stack</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <span class="val">Kort-1</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── <span class="val">Kort-2</span>
+    </div>
+
+    <div class="tip tip-sage">
+      <div class="tip-emoji">💡</div>
+      <div class="tip-body">
+        <div class="tip-title">Flytte lag til riktig parent</div>
+        <p class="tip-text">Hvis et lag havner på feil sted: marker laget → <code>CMD+X</code> → klikk ønsket parent i Layers → <code>CMD+SHIFT+V</code>. Dette limer inn laget direkte inne i den valgte parent-framen.</p>
+      </div>
+    </div>
+
+    <div class="tip tip-peach">
+      <div class="tip-emoji">⚠️</div>
+      <div class="tip-body">
+        <div class="tip-title">Nye frames er alltid blå!</div>
+        <p class="tip-text">Framer gir alle nye frames en blå standardfarge. Husk alltid å klikke X ved Fill-feltet i høyre panel for å fjerne den — ellers ser siden din ut som en blå klatt.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- DESIGN -->
+  <section id="design">
+    <div class="section-label">Del 3</div>
+    <h2>Farger og typografi</h2>
+    <p class="intro-text">Et konsistent designsystem er det som skiller en profesjonell nettside fra en som virker tilfeldig sammensatt. Sett opp dine valg én gang og bruk dem konsekvent.</p>
+
+    <h3>Slik velger du farger</h3>
+    <p>En god fargepalett for en prosjektnettside trenger sjelden mer enn 4–5 farger. Her er en mal du kan tilpasse:</p>
+
+    <p>Her er et eksempel på et nøytralt grunnlag — bytt aksent­fargen til din valgte farge, og juster lys/mørk etter ønsket stemning:</p>
+    <div class="palette">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#E8E8E8; border:1px solid #ccc"></div>
+        <div class="swatch-name">Aksent<br>(velg selv!)</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#333333"></div>
+        <div class="swatch-name">Mørk<br>(tekst, seksjoner)</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F8F8F6; border:1px solid #ddd"></div>
+        <div class="swatch-name">Lys<br>(bakgrunn)</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#FFFFFF; border:1px solid #ddd"></div>
+        <div class="swatch-name">Hvit<br>(kort, innhold)</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#888888"></div>
+        <div class="swatch-name">Grå<br>(brødtekst)</div>
+      </div>
+    </div>
+    <div class="tip tip-sage">
+      <div class="tip-emoji">🎨</div>
+      <div class="tip-body">
+        <div class="tip-title">Finn din aksent­farge</div>
+        <p class="tip-text">Velg en farge som passer prosjektets tema. Bruk verktøy som <strong>coolors.co</strong> eller <strong>color.adobe.com</strong> for å bygge en helhetlig palett. Husk: én sterk aksent­farge er nok — resten kan holdes nøytralt.</p>
+      </div>
+    </div>
+
+    <div class="tip tip-sky">
+      <div class="tip-emoji">🎨</div>
+      <div class="tip-body">
+        <div class="tip-title">Tips: Velg én aksent­farge</div>
+        <p class="tip-text">Velg én sterk aksent­farge (blå, grønn, lilla osv.) og bruk den konsekvent på etiketter, lenker og fremhevet tekst. Alt annet kan holdes nøytralt. Da ser siden profesjonell ut uten mye innsats.</p>
+      </div>
+    </div>
+
+    <h3>Typografi-system</h3>
+    <p>Bruk maksimalt to–tre fonter: én til overskrifter, én til brødtekst og eventuelt én monospace-font til etiketter og koder.</p>
+
+    <div class="table-wrap">
+      <table>
+        <tr>
+          <th>Bruksområde</th>
+          <th>Font-type</th>
+          <th>Størrelse</th>
+          <th>Vekt</th>
+          <th>Farge</th>
+        </tr>
+        <tr>
+          <td>Seksjonsetiketter</td>
+          <td>Monospace (f.eks. DM Mono)</td>
+          <td>10–11px</td>
+          <td>400</td>
+          <td>Aksent­farge, Uppercase</td>
+        </tr>
+        <tr>
+          <td>Overskrifter H1/H2</td>
+          <td>Display (f.eks. Syne, Playfair)</td>
+          <td>36–56px</td>
+          <td>700–800</td>
+          <td>Mørk</td>
+        </tr>
+        <tr>
+          <td>Kortoverskrifter</td>
+          <td>Display eller Sans</td>
+          <td>15–18px</td>
+          <td>600–700</td>
+          <td>Mørk</td>
+        </tr>
+        <tr>
+          <td>Brødtekst</td>
+          <td>Sans (f.eks. Inter, DM Sans)</td>
+          <td>14–16px</td>
+          <td>300–400 (Light/Regular)</td>
+          <td>Grå</td>
+        </tr>
+        <tr>
+          <td>Lenker</td>
+          <td>Sans</td>
+          <td>12–13px</td>
+          <td>400–500</td>
+          <td>Aksent­farge</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="tip tip-sage">
+      <div class="tip-emoji">💡</div>
+      <div class="tip-body">
+        <div class="tip-title">Fonter fra Google Fonts</div>
+        <p class="tip-text">I Framer kan du søke etter Google Fonts direkte i font-feltet. Populære valg: Syne (overskrifter), Inter (brødtekst), Plus Jakarta Sans (moderne sans), Playfair Display (elegant serif), DM Mono (etiketter).</p>
+      </div>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- SEKSJONER -->
+  <section id="seksjoner">
+    <div class="section-label">Del 4</div>
+    <h2>Bygge seksjoner</h2>
+    <p class="intro-text">En god nettside veksler mellom ulike bakgrunnsfarger for å skape rytme og lesbarhet. Her er oppskriften på de viktigste seksjonene.</p>
+
+    <h3>Anker-lenker i navigasjon</h3>
+    <p>For at nav-lenker skal scrolle til seksjoner på siden:</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-left">
+          <div class="step-circle">1</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">Sett Scroll Section-ID på seksjonen</div>
+          <p class="step-desc">Klikk på seksjonen → høyre panel → Scroll Section → skriv inn navn, f.eks. <code>om-seksjon</code>. Framer legger til # automatisk.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left">
+          <div class="step-circle">2</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">Link nav-lenken til ankeret</div>
+          <p class="step-desc">Klikk på nav-lenken → Link To → skriv <code>#om-seksjon</code> med liten bokstav og uten æ, ø, å.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left">
+          <div class="step-circle">3</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">Lenke til annen side</div>
+          <p class="step-desc">Klikk på lenken → Link To → velg Page fra dropdown → velg ønsket side. For mailto-lenker skriv <code>mailto:din@epost.no</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip tip-peach">
+      <div class="tip-emoji">⚠️</div>
+      <div class="tip-body">
+        <div class="tip-title">Ingen æ, ø, å i ID-er!</div>
+        <p class="tip-text">Skriv aldri norske tegn i Scroll Section-ID eller anker-lenker. Skriv <code>losninger-seksjon</code> i stedet for <code>løsninger-seksjon</code> — ellers vil lenkene ikke fungere.</p>
+      </div>
+    </div>
+
+    <h3>Bilder i Framer</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-left">
+          <div class="step-circle">A</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">Dra fra Finder (enklest)</div>
+          <p class="step-desc">Dra bildefilen direkte fra Finder inn på canvas. Framer legger det til automatisk. Raskeste metode for illustrasjoner og dekorbilder.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left">
+          <div class="step-circle">B</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">Fill på frame (for profilbilder)</div>
+          <p class="step-desc">Lag en frame med ønsket størrelse og Radius 999 for rundt bilde. Klikk Fill → velg bilde-ikonet → last opp. Sett Overflow: Clip. Da fyller bildet framen perfekt uten å flyte utenfor.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- MOBIL -->
+  <section id="mobil">
+    <div class="section-label">Del 5 — Nytt!</div>
+    <h2>Mobilvisning og responsivt design</h2>
+    <p class="intro-text">Mange besøkende ser nettsiden på telefon. Framer har et innebygd breakpoint-system som lar deg tilpasse layouten for ulike skjermstørrelser uten å bygge siden på nytt.</p>
+
+    <h3>Forstå breakpoints</h3>
+    <div class="breakpoint-grid">
+      <div class="breakpoint-card">
+        <div class="breakpoint-icon">🖥</div>
+        <div class="breakpoint-size">1440px+</div>
+        <div class="breakpoint-name">Desktop</div>
+        <p class="breakpoint-desc">Standardvisningen du bygger i. Alltid start her.</p>
+      </div>
+      <div class="breakpoint-card">
+        <div class="breakpoint-icon">💻</div>
+        <div class="breakpoint-size">768–1439px</div>
+        <div class="breakpoint-name">Tablet</div>
+        <p class="breakpoint-desc">Mellomstore skjermer. Kolonner kan reduseres.</p>
+      </div>
+      <div class="breakpoint-card">
+        <div class="breakpoint-icon">📱</div>
+        <div class="breakpoint-size">0–767px</div>
+        <div class="breakpoint-name">Mobil</div>
+        <p class="breakpoint-desc">Alt i én kolonne. Skriftstørrelser nedskaleres.</p>
+      </div>
+    </div>
+
+    <h3>Slik legger du til mobilvisning i Framer</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-left">
+          <div class="step-circle">1</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">Legg til nytt breakpoint</div>
+          <p class="step-desc">Klikk på <code>Desktop 1440</code>-indikatoren øverst på canvas → klikk <strong>+ Breakpoint</strong> → velg <strong>Phone</strong> (375px). Framer kopierer siden og lar deg justere layouten for mobil.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left">
+          <div class="step-circle">2</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">Gjør horisontale stackar vertikale</div>
+          <p class="step-desc">På mobil er det ikke plass til to kolonner side om side. Finn alle horisontal Stack-frames og bytt retning til vertikal (↕) i mobilvisningen. Da stables innhold under hverandre.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left">
+          <div class="step-circle">3</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">Reduser kolonner i Grid</div>
+          <p class="step-desc">Et 3-kolonne grid på desktop bør være 1 kolonne på mobil. Klikk på Grid-framen i mobilvisningen → endre Columns fra 3 til 1. Kortene stables da automatisk.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left">
+          <div class="step-circle">4</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">Reduser padding og skriftstørrelser</div>
+          <p class="step-desc">Desktop-padding på 144px er for mye på mobil. Sett sidepadding til 20–24px. Overskrifter bør ned fra 44px til 28–32px. Brødtekst kan beholdes på 14–15px.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left">
+          <div class="step-circle">5</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">Forenkle navigasjonsbaren</div>
+          <p class="step-desc">Nav med mange lenker får ikke plass på mobil. Skjul nav-lenkene på mobil (Visible: No) og erstatt med kun logo + en hamburger-meny, eller fjern lenkene og la logo og tittel stå alene.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left">
+          <div class="step-circle">6</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">Skjul dekorative elementer</div>
+          <p class="step-desc">Illustrasjoner og bilder som er Absolute-posisjonert kan forstyrre mobillayouten. Skjul dem i mobilvisningen ved å sette Visible: No — de forsvinner kun på mobil, ikke på desktop.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip tip-sky">
+      <div class="tip-emoji">📱</div>
+      <div class="tip-body">
+        <div class="tip-title">Test på ekte telefon</div>
+        <p class="tip-text">Publiser siden og åpne den på din egen telefon. Framer sin preview er ikke alltid helt nøyaktig — det er alltid ekte nettleser på ekte enhet som er fasit. Se særlig etter tekst som kuttes av og knapper som er for små å trykke på.</p>
+      </div>
+    </div>
+
+    <h3>Rask sjekkliste for mobilvisning</h3>
+    <ul class="checklist">
+      <li><div class="check-box"></div>Alle horisontale Stacker er gjort vertikale på mobil</li>
+      <li><div class="check-box"></div>Grid-kolonner er redusert til 1 på mobil</li>
+      <li><div class="check-box"></div>Sidepadding er maks 24px på mobil</li>
+      <li><div class="check-box"></div>Overskrifter er nedskalert (maks 32px)</li>
+      <li><div class="check-box"></div>Navigasjonsbaren fungerer på smal skjerm</li>
+      <li><div class="check-box"></div>Bilder og illustrasjoner vises korrekt</li>
+      <li><div class="check-box"></div>Knapper og lenker er enkle å trykke på (min. 44px høye)</li>
+      <li><div class="check-box"></div>Siden er testet på ekte mobilenhet</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- FEIL OG TIPS -->
+  <section id="feil">
+    <div class="section-label">Del 6</div>
+    <h2>Vanlige feil og løsninger</h2>
+    <p class="intro-text">Her er en oversikt over problemene de fleste støter på — og de raskeste løsningene.</p>
+
+    <div class="table-wrap">
+      <table>
+        <tr>
+          <th>Problem</th>
+          <th>Årsak</th>
+          <th>Løsning</th>
+        </tr>
+        <tr>
+          <td>Tekst kuttes av</td>
+          <td>Fixed høyde på container</td>
+          <td>Bytt Height til <strong>Fit Content</strong></td>
+        </tr>
+        <tr>
+          <td>Tekster side om side i stedet for under hverandre</td>
+          <td>Stack-retning er Horisontal</td>
+          <td>Bytt Direction til <strong>Vertikal (↕)</strong></td>
+        </tr>
+        <tr>
+          <td>Element havner utenfor Desktop</td>
+          <td>Elementet er Absolute, ikke i riktig parent</td>
+          <td><code>CMD+X</code> → klikk riktig parent → <code>CMD+SHIFT+V</code></td>
+        </tr>
+        <tr>
+          <td>Siden er blå overalt</td>
+          <td>Ny frame beholdt standardfarge</td>
+          <td>Klikk X ved Fill-feltet for å fjerne fargen</td>
+        </tr>
+        <tr>
+          <td>Bilde vises ikke i rund frame</td>
+          <td>Overflow er Visible, ikke Clip</td>
+          <td>Sett <strong>Overflow: Clip</strong> + Radius 999</td>
+        </tr>
+        <tr>
+          <td>Nav-lenker fungerer ikke</td>
+          <td>Mangler Scroll Section ID</td>
+          <td>Legg til ID på seksjonen + bruk <code>#id</code> i Link To</td>
+        </tr>
+        <tr>
+          <td>Nav skjules bak innhold</td>
+          <td>Z-index er for lav</td>
+          <td>Sett <strong>Z Index: 100</strong> på Nav</td>
+        </tr>
+        <tr>
+          <td>Team-siden er ikke tilgjengelig</td>
+          <td>Siden er Draft</td>
+          <td>Høyreklikk på siden i Pages → fjern Draft</td>
+        </tr>
+        <tr>
+          <td>Anker-lenke scroller ikke til riktig sted</td>
+          <td>Æ/Ø/Å i anker-ID</td>
+          <td>Bruk kun a–z og bindestrek i ID-er</td>
+        </tr>
+        <tr>
+          <td>Mobillayout er kaotisk</td>
+          <td>Desktop-layout ikke tilpasset mobil</td>
+          <td>Legg til Phone breakpoint og gjør stacker vertikale</td>
+        </tr>
+      </table>
+    </div>
+
+    <h3>Nyttige tastatursnarveier</h3>
+    <div class="table-wrap">
+      <table>
+        <tr>
+          <th>Snarvei</th>
+          <th>Hva den gjør</th>
+        </tr>
+        <tr><td><code>F</code></td><td>Lag ny frame (hold og dra)</td></tr>
+        <tr><td><code>T</code></td><td>Lag tekstlag</td></tr>
+        <tr><td><code>CMD+D</code></td><td>Dupliser valgt element</td></tr>
+        <tr><td><code>CMD+Z</code></td><td>Angre — bruk denne ofte!</td></tr>
+        <tr><td><code>CMD+X</code></td><td>Klipp ut lag</td></tr>
+        <tr><td><code>CMD+SHIFT+V</code></td><td>Lim inn inne i valgt parent</td></tr>
+        <tr><td>Dobbelt klikk</td><td>Gå inn i en frame / rediger tekst</td></tr>
+        <tr><td><code>ESC</code></td><td>Gå ut av frame / avbryt</td></tr>
+      </table>
+    </div>
+
+    <h3>Sjekkliste før publisering</h3>
+    <ul class="checklist">
+      <li><div class="check-box"></div>Alle seksjoner har riktig bakgrunnsfarge (ikke blå standard)</li>
+      <li><div class="check-box"></div>Nav har Fixed posisjon og Z-index 100</li>
+      <li><div class="check-box"></div>Alle nav-lenker fungerer — scroll-ankere og sidekoblinger</li>
+      <li><div class="check-box"></div>Alle undersider er publisert, ikke Draft</li>
+      <li><div class="check-box"></div>Bilder vises korrekt — ingen hvite bokser</li>
+      <li><div class="check-box"></div>Tekst kuttes ikke av noe sted</li>
+      <li><div class="check-box"></div>Mobilvisning er testet og justert</li>
+      <li><div class="check-box"></div>Alle lenker (mailto, LinkedIn, eksterne) er testet</li>
+      <li><div class="check-box"></div>Siden er testet i nettleser, ikke bare i Framer-editor</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-logo">Framer-guide</div>
+  <p>Laget for studenter · Høyskolen Kristiania · 2026</p>
+</footer>
+
+</body>
+</html>
